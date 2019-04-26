@@ -380,6 +380,7 @@ nnoremap <leader>ea :split ~/.aliases<cr> ",ea opens .aliases
 nnoremap <leader>sa :!source ~/.aliases<cr> ",ea sources .aliases
 
 setlocal spell spelllang=en_gb "language
+set nospell
 "" Git
 noremap <Leader>ga :Gwrite<CR>
 noremap <Leader>gc :Gcommit<CR>
@@ -727,3 +728,6 @@ else
   let g:airline_symbols.readonly = ''
   let g:airline_symbols.linenr = ''
 endif
+noremap <F12> <Esc>:syntax sync fromstart<CR>
+inoremap <F12> <C-o>:syntax sync fromstart<CR>
+
