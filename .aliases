@@ -1,0 +1,62 @@
+  # AUTOCOLOR {{{
+#    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+#}}}
+  # MODIFIED COMMANDS {{{
+    alias ..='cd ..'
+#}}}
+    alias vi='nvim'
+    alias vim='nvim'
+    alias wttr='__wttr() { clear; curl "wttr.in/$1"; }; __wttr'
+    alias ..='cd ..'
+    alias ...='cd .'
+    alias ....='cd ../../..'
+    alias .....='cd ../../../..'
+    alias ......='cd ../../../../..'
+    alias cd.='cd ..'
+    alias cd..='cd ..'
+    alias l='ls -alF '
+    alias ll='ls -l '
+    alias lm='tyls -m '
+    alias la='ls -a '
+    alias l.='ls -d .* '
+    alias vi2='nvim -o2 '
+    alias vim2='nvim -o2 '
+    alias nvim2='nvim -o2 '
+    alias hc='history -c'
+    alias c='clear'
+    alias which='type -p'
+    alias k5='kill -9 %%'
+    alias gs='git status'
+    alias top='htop'
+    alias top=''
+    alias mv="mv -i"
+    alias cp="cp -i"
+    alias diff='colordiff'
+    alias rm='rm -i --preserve-root'
+ #   alias 10hist="history | awk '{print $2}' | awk 'BEGIN {FS="|"}{print $1}' | sort | uniq -c | sort -nr | head"
+    alias hg='history | grep'
+    alias vz='nvim ~/.zshrc'
+    alias va='nvim ~/.aliases'
+    alias vv='nvim ~/.config/nvim/init.vim'
+    alias u='clear; cd ../; pwd; ls -lhGgo'
+    alias d='clear; cd -; ls -lhGgo'
+    alias cuts="cut -d \" \""
+    alias cutc="cut -d \",\""
+    function mcd { mkdir -p "$1" && cd "$1";}
+    alias refresh="source ~/.bashrc"
+    alias ffs='sudo "$BASH" -c "$(history -p !!)"'
+    alias d101='source activate data101'
+    alias go6060='godoc -http=:6060'
+    alias :q='exit'
+    alias :wq='exit'
+    alias :wqa='exit'
+    alias :qa='exit'
+    alias st='source ~/.tmux.conf'
+    alias vt='nvim ~/.tmux.conf'
+    alias va='nvim ~/.aliases'
+    alias sz='source ~/.zshrc'
