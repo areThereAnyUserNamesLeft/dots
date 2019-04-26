@@ -1,282 +1,279 @@
-"    _                                  __     ___           ____   ____
-"   / \__      _____  ___  _ __ ___   __\ \   / (_)_ __ ___ |  _ \ / ___|
-"  / _ \ \ /\ / / __|/ _ \| '_ ` _ \ / _ \ \ / /| | '_ ` _ \| |_) | |
-" / ___ \ V  V /\__ \ (_) | | | | | |  __/\ V / | | | | | | |  _ <| |___
-"/_/   \_\_/\_/ |___/\___/|_| |_| |_|\___| \_/  |_|_| |_| |_|_| \_\\____|
+" vim-bootstrap 
 
+"*****************************************************************************
+"" Vim-PLug core
+"*****************************************************************************
+let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
 
-"  _____                    _   _       _
-" | ____|___ ___  ___ _ __ | |_(_) __ _| |___
-" |  _| / __/ __|/ _ \ '_ \| __| |/ _` | / __|
-" | |___\__ \__ \  __/ | | | |_| | (_| | \__ \
-" |_____|___/___/\___|_| |_|\__|_|\__,_|_|___/
+let g:vim_bootstrap_langs = "go,html,javascript,php,python,ruby,typescript"
+let g:vim_bootstrap_editor = "nvim"				" nvim or vim
 
-let mapleader="," "Leader is comma
-" check whichTMUX session I am in
-let TMUX_ENV = trim(system('tmux display-message -p ''#S''  '))
+if !filereadable(vimplug_exists)
+  if !executable("curl")
+    echoerr "You have to install curl or first install vim-plug yourself!"
+    execute "q!"
+  endif
+  echo "Installing Vim-Plug..."
+  echo ""
+  silent exec "!\curl -fLo " . vimplug_exists . " --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+  let g:not_finish_vimplug = "yes"
 
-nnoremap <leader>ev :split $MYVIMRC<cr> ",ev opens .vimrc
-nnoremap <leader>sv :source $MYVIMRC<cr> ",sv sources .vimrc
-nnoremap <leader>et :split ~/.tmux.conf<cr> ",et opens .tmux.conf
-nnoremap <leader>st :! tmux source-file ~/.tmux.conf<cr> ",st sources .tmux.conf
-nnoremap <leader>ez :split ~/.zshrc<cr> ",ez opens .zshrc
-nnoremap <leader>sz :!source ~/.zshrc<cr> ",ez sources .zshrc
-nnoremap <leader>ea :split ~/.aliases<cr> ",ea opens .aliases
-nnoremap <leader>sa :!source ~/.aliases<cr> ",ea sources .aliases
-setlocal spell spelllang=en_gb "language
-set nocompatible " Good practice
-set nospell
-
-"  ____  _             _
-" |  _ \| |_   _  __ _(_)_ __
-" | |_) | | | | |/ _` | | '_ \
-" |  __/| | |_| | (_| | | | | |
-" |_|   |_|\__,_|\__, |_|_| |_|
-"                |___/
-"                                                              _
-"  _ __ ___   __ _ _ __   __ _  __ _  ___ _ __ ___   ___ _ __ | |_
-" | '_ ` _ \ / _` | '_ \ / _` |/ _` |/ _ \ '_ ` _ \ / _ \ '_ \| __|
-" | | | | | | (_| | | | | (_| | (_| |  __/ | | | | |  __/ | | | |_
-" |_| |_| |_|\__,_|_| |_|\__,_|\__, |\___|_| |_| |_|\___|_| |_|\__|
-"                              |___/
-"pathogen package manager
-execute pathogen#infect()
-filetype off "off for setting up plugins - turned back on later
-let g:ale_emit_conflict_warnings = 0 " turned off warnings in ALE -- Why?
-
-set rtp+=~/.config/nvim/bundle/Vundle.vim
-call vundle#begin()
-
-"set mouse=a
-
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'tpope/vim-dotenv'
-Plugin 'tpope/vim-dadbod'
-Plugin 'prettier/vim-prettier'
-Plugin 'scrooloose/nerdtree'
-Plugin 'vimwiki/vimwiki'
-if TMUX_ENV == 'base'
-    Plugin 'suan/vim-instant-markdown'
+  autocmd VimEnter * PlugInstall
 endif
-Plugin 'w0rp/ale'
-Plugin 'tmhedberg/SimpylFold'
-Plugin 'SirVer/ultisnips'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'mhinz/vim-signify'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Townk/vim-autoclose'
-Plugin 'benmills/vimux'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'fatih/vim-go'
-Plugin 'honza/vim-snippets'
-Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/goyo.vim'
-Plugin 'mattn/emmet-vim'
 
-call vundle#end()
+" Required:
+call plug#begin(expand('~/.config/nvim/plugged'))
+
+"*****************************************************************************
+"" Plug install packages
+"*****************************************************************************
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'airblade/vim-gitgutter'
+Plug 'vim-scripts/grep.vim'
+Plug 'vim-scripts/CSApprox'
+Plug 'Raimondi/delimitMate'
+Plug 'majutsushi/tagbar'
+Plug 'w0rp/ale'
+Plug 'Yggdroot/indentLine'
+Plug 'avelino/vim-bootstrap-updater'
+Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
+
+if isdirectory('/usr/local/opt/fzf')
+  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+else
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+  Plug 'junegunn/fzf.vim'
+endif
+let g:make = 'gmake'
+if exists('make')
+        let g:make = 'make'
+endif
+Plug 'Shougo/vimproc.vim', {'do': g:make}
+
+"" Vim-Session
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
+
+"" Snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+"" Color
+Plug 'tomasr/molokai'
+
+"*****************************************************************************
+"" Custom bundles
+"*****************************************************************************
+
+" go
+"" Go Lang Bundle
+Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
+
+
+" html
+"" HTML Bundle
+Plug 'hail2u/vim-css3-syntax'
+Plug 'gorodinskiy/vim-coloresque'
+Plug 'tpope/vim-haml'
+Plug 'mattn/emmet-vim'
+
+
+" javascript
+"" Javascript Bundle
+Plug 'jelera/vim-javascript-syntax'
+
+
+" php
+"" PHP Bundle
+Plug 'arnaud-lb/vim-php-namespace'
+
+
+" python
+"" Python Bundle
+Plug 'davidhalter/jedi-vim'
+Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
+
+
+" ruby
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-rake'
+Plug 'tpope/vim-projectionist'
+Plug 'thoughtbot/vim-rspec'
+Plug 'ecomba/vim-ruby-refactoring'
+
+
+" typescript
+Plug 'leafgarland/typescript-vim'
+Plug 'HerringtonDarkholme/yats.vim'
+
+
+"*****************************************************************************
+"*****************************************************************************
+
+"" Include user's extra bundle
+if filereadable(expand("~/.config/nvim/local_bundles.vim"))
+  source ~/.config/nvim/local_bundles.vim
+endif
+
+call plug#end()
+
+" Required:
 filetype plugin indent on
 
-"     _
-"    / \   _ __  _ __   ___  __ _ _ __ __ _ _ __   ___ ___
-"   / _ \ | '_ \| '_ \ / _ \/ _` | '__/ _` | '_ \ / __/ _ \
-"  / ___ \| |_) | |_) |  __/ (_| | | | (_| | | | | (_|  __/
-" /_/   \_\ .__/| .__/ \___|\__,_|_|  \__,_|_| |_|\___\___|
-"         |_|   |_|
-"
-" Font + Fundementals
-set guifont=DroidSansMono\ Nerd\ Font\ 14
-set t_Co=256
-set laststatus=2
-set noswapfile
-syntax on
 
-if TMUX_ENV == 'base'
-    colorscheme deepsea
+"*****************************************************************************
+"" Basic Setup
+"*****************************************************************************"
+"" Encoding
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
+
+
+"" Fix backspace indent
+set backspace=indent,eol,start
+
+"" Tabs. May be overridden by autocmd rules
+set tabstop=4
+set softtabstop=0
+set shiftwidth=4
+set expandtab
+
+"" Map leader to ,
+let mapleader=','
+
+"" Enable hidden buffers
+set hidden
+
+"" Searching
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+set fileformats=unix,dos,mac
+
+if exists('$SHELL')
+    set shell=$SHELL
 else
-    colorscheme bubblegum-256-light
+    set shell=/bin/sh
 endif
 
+" session management
+let g:session_directory = "~/.config/nvim/session"
+let g:session_autoload = "no"
+let g:session_autosave = "no"
+let g:session_command_aliases = 1
 
-highlight colorcolumn ctermbg=0
-set softtabstop=4 shiftwidth=4 expandtab
-set noshowmode
-set textwidth=80
-set colorcolumn=81
-
-
-
-" Numbers / Gutter
+"*****************************************************************************
+"" Visual Settings
+"*****************************************************************************
+syntax on
+set ruler
 set number
 set relativenumber
 
-"Set go tags up"
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
+let no_buffers_menu=1
+silent! colorscheme deepsea
 
-" Airline & StatusLine
-let g:airline_powerline_fonts = 1
+set guifont=DroidSansMono\ Nerd\ Font\ 14
+set laststatus=2
+set noswapfile
 
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
+set mousemodel=popup
+set t_Co=256
+set guioptions=egmrti
+set gfn=Monospace\ 10
 
-" unicode symbols
-let g:airline_left_ep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.whitespace = 'Ξ'
-
-" airline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
-
-let g:airline#extensions#tabline#enabled = 1
-if TMUX_ENV == 'base'
-    let g:airline_theme='badwolf'
+if has("gui_running")
+  if has("gui_mac") || has("gui_macvim")
+    set guifont=Menlo:h12
+    set transparency=7
+  endif
 else
-    let g:airline_theme='atomic'
+  let g:CSApprox_loaded = 1
+
+  "" IndentLine
+  let g:indentLine_enabled = 1
+  let g:indentLine_concealcursor = 0
+  let g:indentLine_char = '┆'
+  let g:indentLine_faster = 1
+
+  
 endif
-set statusline+=%#warningmsg#
-set statusline+=%{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''}
-set statusline+=%*
 
 
-"     _         _         ____                      _      _   _
-"    / \  _   _| |_ ___  / ___|___  _ __ ___  _ __ | | ___| |_(_) ___  _ __
-"   / _ \| | | | __/ _ \| |   / _ \| '_ ` _ \| '_ \| |/ _ \ __| |/ _ \| '_ \
-"  / ___ \ |_| | || (_) | |__| (_) | | | | | | |_) | |  __/ |_| | (_) | | | |
-" /_/   \_\__,_|\__\___/ \____\___/|_| |_| |_| .__/|_|\___|\__|_|\___/|_| |_|
-"                                            |_|
 
-" If installed using Homebrew
-set rtp+=/usr/local/opt/fzf
+"" Disable the blinking cursor.
+set gcr=a:blinkon0
+set scrolloff=3
 
-" Set up neovim auto completion"
-" let g:neocomplete#enable_at_startup = 1
+"" Status bar
+set laststatus=2
 
-" ALE stuff
-let g:ale_sign_error = '!!'
-let g:ale_sign_warning = '!'
-let g:ale_linter_aliases = {'jsx': ['css', 'javascript']}
-let g:ale_linters = {'jsx': ['prettier']}
+"" Use modeline overrides
+set modeline
+set modelines=10
+
+set title
+set titleold="Terminal"
+set titlestring=%F
+
+set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
+
+"" Search mappings: These will make it so that going to the next one in a
+"" search will center on the line it's found in.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+if exists("*fugitive#statusline")
+  set statusline+=%{fugitive#statusline()}
+endif
+
+" vim-airline
+let g:airline_theme = 'badwolf'
+let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 1
-let g:ale_sign_column_always = 1
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript':['eslint','prettier'],
-\   'go':['gofmt'],
-\   'python':['autopep8'],
-\   'make':['checkmake'],
-\   'dockerfie':['dockerfile_lint'],
-\}
-let g:ale_fix_on_save = 1
-let g:ale_lint_on_save = 1
-" Enable completion where available.
-" This setting must be set before ALE is loaded.
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_skip_empty_sections = 1
 
-let g:ale_completion_enabled = 1
-set rtp+=$GOPATH/src/golang.org/x/lint/misc/vim
+"*****************************************************************************
+"" Abbreviations
+"*****************************************************************************
+"" no one is really happy until you have this shortcuts
+cnoreabbrev W! w!
+cnoreabbrev Q! q!
+cnoreabbrev Qall! qall!
+cnoreabbrev Wq wq
+cnoreabbrev Wa wa
+cnoreabbrev wQ wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
+cnoreabbrev Qall qall
 
-
-augroup FiletypeGroup
-    autocmd!
-    au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
-augroup END
-
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
-
-"  __  __                                     _
-" |  \/  | _____   _____ _ __ ___   ___ _ __ | |_ ___
-" | |\/| |/ _ \ \ / / _ \ '_ ` _ \ / _ \ '_ \| __/ __|
-" | |  | | (_) \ V /  __/ | | | | |  __/ | | | |_\__ \
-" |_|  |_|\___/ \_/ \___|_| |_| |_|\___|_| |_|\__|___/
-
-
-" move to next html tag with %
-runtime macros/matchit.vim
-" VIMmotion
-
-" <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
-
-" s{char}{char} to move to {char}{char}
-nmap s <Plug>(easymotion-overwin-f2)
-
-" Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
-
-" Move to wormap  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
-
-"  _____     _     _ _
-" |  ___|__ | | __| (_)_ __   __ _
-" | |_ / _ \| |/ _` | | '_ \ / _` |
-" |  _| (_) | | (_| | | | | | (_| |
-" |_|  \___/|_|\__,_|_|_| |_|\__, |
-"                            |___/
-
-nnoremap <space> za
-set foldmethod=indent
-set foldlevel=99
-let g:SimplyFold_docstring_preview=1
-
-
-"  _   _             _             _   _
-" | \ | | __ ___   _(_) __ _  __ _| |_(_) ___  _ __
-" |  \| |/ _` \ \ / / |/ _` |/ _` | __| |/ _ \| '_ \
-" | |\  | (_| |\ V /| | (_| | (_| | |_| | (_) | | | |
-" |_| \_|\__,_| \_/ |_|\__, |\__,_|\__|_|\___/|_| |_|
-"                      |___/
-
-nnoremap <leader>q :NERDTreeToggle<CR>
+"" NERDTree configuration
+let g:NERDTreeChDirMode=2
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+let g:NERDTreeShowBookmarks=1
+let g:nerdtree_tabs_focus_on_files=1
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let NERDTreeShowHidden=1
+let g:NERDTreeWinSize = 50
 let g:NERDTreeWinPos = "right"
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+nnoremap <silent> <F2> :NERDTreeFind<CR>
+nnoremap <leader>m :NERDTreeToggle<CR>
 
-" NERDTress File highlighting
+"" NERDTress File highlighting
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
  exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
  exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
@@ -301,140 +298,432 @@ call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
 call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
 call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
 
-"  ____                                                _
-" |  _ \ _ __ ___   __ _ _ __ __ _ _ __ ___  _ __ ___ (_)_ __   __ _
-" | |_) | '__/ _ \ / _` | '__/ _` | '_ ` _ \| '_ ` _ \| | '_ \ / _` |
-" |  __/| | | (_) | (_| | | | (_| | | | | | | | | | | | | | | | (_| |
-" |_|   |_|  \___/ \__, |_|  \__,_|_| |_| |_|_| |_| |_|_|_| |_|\__, |
-"                  |___/                                       |___/
-"
-" GOLANG------------
-"
-" Don't try to autoinstall go by default
-let g:go_disable_autoinstall = 1
-let g:go_highlight_types = 1
+" grep.vim
+nnoremap <silent> <leader>f :Rgrep<CR>
+let Grep_Default_Options = '-IR'
+let Grep_Skip_Files = '*.log *.db'
+let Grep_Skip_Dirs = '.git node_modules'
 
-" Highlight
-" let g:go_highlight_functions = 1
-" let g:go_highlight_methods = 1
-" let g:go_highlight_structs = 1
-" let g:go_highlight_operators = 1
-" let g:go_highlight_build_constraints = 1
-"
-" Trigger configuration.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" terminal emulation
+nnoremap <silent> <leader>sh :terminal<CR>
 
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
 
-"  __  __                   _
-" |  \/  | __ _ _ __  _ __ (_)_ __   __ _ ___
-" | |\/| |/ _` | '_ \| '_ \| | '_ \ / _` / __|
-" | |  | | (_| | |_) | |_) | | | | | (_| \__ \
-" |_|  |_|\__,_| .__/| .__/|_|_| |_|\__, |___/
-"              |_|   |_|            |___/
-"
+"*****************************************************************************
+"" Commands
+"*****************************************************************************
+" remove trailing whitespaces
+command! FixWhitespace :%s/\s\+$//e
 
-" No Arrows for you normal mode!
+"*****************************************************************************
+"" Functions
+"*****************************************************************************
+if !exists('*s:setupWrapping')
+  function s:setupWrapping()
+    set wrap
+    set wm=2
+    set textwidth=79
+  endfunction
+endif
+
+"*****************************************************************************
+"" Autocmd Rules
+"*****************************************************************************
+"" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
+augroup vimrc-sync-fromstart
+  autocmd!
+  autocmd BufEnter * :syntax sync maxlines=200
+augroup END
+
+"" Remember cursor position
+augroup vimrc-remember-cursor-position
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+augroup END
+
+"" txt
+augroup vimrc-wrapping
+  autocmd!
+  autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
+augroup END
+
+"" make/cmake
+augroup vimrc-make-cmake
+  autocmd!
+  autocmd FileType make setlocal noexpandtab
+  autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
+augroup END
+
+set autoread
+
+"*****************************************************************************
+"" Mappings
+"*****************************************************************************
+
+"" No Arrows for you normal mode!
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
-" insert mode ctrl + ? to mimic normal functions
-imap <C-d> <esc>ddi
-imap <C-p> <esc>pi
-imap <C-y> <esc>yi
-" ," and ,' to "quote" a 'word'
+"" Split
+noremap <Leader>h :<C-u>split<CR>
+noremap <Leader>v :<C-u>vsplit<CR>
+
+"" Edit and Source shortcuts
+nnoremap <leader>ev :split $MYVIMRC<cr> ",ev opens .vimrc
+nnoremap <leader>sv :source $MYVIMRC<cr> ",sv sources .vimrc
+nnoremap <leader>et :split ~/.tmux.conf<cr> ",et opens .tmux.conf
+nnoremap <leader>st :! tmux source-file ~/.tmux.conf<cr> ",st sources .tmux.conf
+nnoremap <leader>ez :split ~/.zshrc<cr> ",ez opens .zshrc
+nnoremap <leader>sz :!source ~/.zshrc<cr> ",ez sources .zshrc
+nnoremap <leader>ea :split ~/.aliases<cr> ",ea opens .aliases
+nnoremap <leader>sa :!source ~/.aliases<cr> ",ea sources .aliases
+
+setlocal spell spelllang=en_gb "language
+"" Git
+noremap <Leader>ga :Gwrite<CR>
+noremap <Leader>gc :Gcommit<CR>
+noremap <Leader>gsh :Gpush<CR>
+noremap <Leader>gll :Gpull<CR>
+noremap <Leader>gs :Gstatus<CR>
+noremap <Leader>gb :Gblame<CR>
+noremap <Leader>gd :Gvdiff<CR>
+noremap <Leader>gr :Gremove<CR>
+
+" session management
+nnoremap <leader>so :OpenSession<Space>
+nnoremap <leader>ss :SaveSession<Space>
+nnoremap <leader>sd :DeleteSession<CR>
+nnoremap <leader>sc :CloseSession<CR>
+
+"" Tabs
+nnoremap <Tab> gt
+nnoremap <S-Tab> gT
+nnoremap <silent> <S-t> :tabnew<CR>
+
+"" Set working directory
+nnoremap <leader>. :lcd %:p:h<CR>
+
+"" Opens an edit command with the path of the currently edited file filled in
+noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+
+"" Opens a tab edit command with the path of the currently edited file filled
+noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
+
+" Quote wrapping ," and ,' to "quote" a 'word'
+nnoremap <leader>` viw<esc>a`<esc>bi`<esc>lel
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
-" Window movement
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-"  ____                      _     _
-" / ___|  ___  __ _ _ __ ___| |__ (_)_ __   __ _
-" \___ \ / _ \/ _` | '__/ __| '_ \| | '_ \ / _` |
-"  ___) |  __/ (_| | | | (__| | | | | | | | (_| |
-" |____/ \___|\__,_|_|  \___|_| |_|_|_| |_|\__, |
-"                                          |___/
-set hlsearch
-set incsearch
-
-" This unsets the 'last search pattern' register by hitting ;
-nnoremap <leader>? :noh<CR>:<backspace>
-
-" The Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
-" bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-
-" bind \ (backward slash) to grep shortcut
-command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-
-"  ____  _                                             _
-" |  _ \| | __ _ _   _  __ _ _ __ ___  _   _ _ __   __| |
-" | |_) | |/ _` | | | |/ _` | '__/ _ \| | | | '_ \ / _` |
-" |  __/| | (_| | |_| | (_| | | | (_) | |_| | | | | (_| |
-" |_|   |_|\__,_|\__, |\__, |_|  \___/ \__,_|_| |_|\__,_|
-"                |___/ |___/
-"
-"                Try new stuff out here
-
-" Trying to break bad habits  for motion commands
-nnoremap ww <nop>
-nnoremap ee <nop>
-nnoremap bb <nop>
-"nnoremap jj <nop>
-"nnoremap kk <nop>
-nnoremap ll <nop>
 
 " Control + A will run the sum under cursor
 ino <C-A> <C-O>yiW<End>=<C-R>=<C-R>0<CR>
 
-" m + a number will reorder lines in a text block!
-function! MoveEm(position)
-    let saved_cursor = getpos(".")
-    let previous_blank_line = search('^$', 'bn')
-    let target_line = previous_blank_line + a:position -1
-    execute 'move '  . target_line
-    call setpos('.',saved_cursor)
+"" fzf.vim
+set wildmode=list:longest,list:full
+set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+
+" The Silver Searcher
+if executable('ag')
+  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+
+" ripgrep
+if executable('rg')
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+  set grepprg=rg\ --vimgrep
+  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+endif
+
+cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader>e :FZF -m<CR>
+"Recovery commands from history through FZF
+nmap <leader>y :History:<CR>
+
+" snippets
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsEditSplit="vertical"
+
+" ale
+let g:ale_linters = {}
+
+" Tagbar
+nmap <silent> <F4> :TagbarToggle<CR>
+let g:tagbar_autofocus = 1
+
+" Disable visualbell
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+  autocmd GUIEnter * set visualbell t_vb=
+endif
+
+"" Copy/Paste/Cut
+if has('unnamedplus')
+  set clipboard=unnamed,unnamedplus
+endif
+
+noremap YY "+y<CR>
+noremap <leader>p "+gP<CR>
+noremap XX "+x<CR>
+
+if has('macunix')
+  " pbcopy for OSX copy/paste
+  vmap <C-x> :!pbcopy<CR>
+  vmap <C-c> :w !pbcopy<CR><CR>
+endif
+
+"" Buffer nav
+noremap <leader>z :bp<CR>
+noremap <leader>q :bp<CR>
+noremap <leader>x :bn<CR>
+noremap <leader>w :bn<CR>
+
+"" Close buffer
+noremap <leader>c :bd<CR>
+
+"" Clean search (highlight)
+nnoremap <silent> <leader><space> :noh<cr>
+
+"" Switching windows
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+noremap <C-h> <C-w>h
+
+"" Vmap for maintain Visual Mode after shifting > and <
+vmap < <gv
+vmap > >gv
+
+"" Move visual block
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+"" Open current line on GitHub
+nnoremap <Leader>o :.Gbrowse<CR>
+
+"*****************************************************************************
+"" Custom configs
+"*****************************************************************************
+
+" go
+" vim-go
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
 endfunction
 
-for position in range(1,9)
-    execute 'nnoremap m' . position . ' :call MoveEm(' . position .')<cr>'
-endfor
+let g:go_list_type = "quickfix"
+let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 1
 
-" ,fg will ask you for a word to enter at current cursor in figlet text
-nnoremap <leader>fg :execute 'r!figlet "'.input('Enter message: ').'"'<cr>
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_space_tab_error = 0
+let g:go_highlight_array_whitespace_error = 0
+let g:go_highlight_trailing_whitespace_error = 0
+let g:go_highlight_extra_types = 1
+
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+
+augroup completion_preview_close
+  autocmd!
+  if v:version > 703 || v:version == 703 && has('patch598')
+    autocmd CompleteDone * if !&previewwindow && &completeopt =~ 'preview' | silent! pclose | endif
+  endif
+augroup END
+
+augroup go
+
+  au!
+  au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+  au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  au Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+  au Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+
+  au FileType go nmap <Leader>dd <Plug>(go-def-vertical)
+  au FileType go nmap <Leader>dv <Plug>(go-doc-vertical)
+  au FileType go nmap <Leader>db <Plug>(go-doc-browser)
+
+  au FileType go nmap <leader>r  <Plug>(go-run)
+  au FileType go nmap <leader>t  <Plug>(go-test)
+  au FileType go nmap <Leader>gt <Plug>(go-coverage-toggle)
+  au FileType go nmap <Leader>i <Plug>(go-info)
+  au FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
+  au FileType go nmap <C-g> :GoDecls<cr>
+  au FileType go nmap <leader>dr :GoDeclsDir<cr>
+  au FileType go imap <C-g> <esc>:<C-u>GoDecls<cr>
+  au FileType go imap <leader>dr <esc>:<C-u>GoDeclsDir<cr>
+  au FileType go nmap <leader>rb :<C-u>call <SID>build_go_files()<CR>
+
+augroup END
+
+"" ale
+:call extend(g:ale_linters, {
+    \"go": ['golint', 'go vet'], })
 
 
-let g:instant_markdown_autostart = 1 "if doing a lot of MD - https://github.com/suan/vim-instant-markdown
-"  __  __ _
-" |  \/  (_)___  ___
-" | |\/| | / __|/ __|
-" | |  | | \__ \ (__ _
-" |_|  |_|_|___/\___(_)
-"
-"  A grave yard of cammands no longer needed or wanted but worth keeping in limbo for now
+" html
+" for html files, 2 spaces
+autocmd Filetype html setlocal ts=2 sw=2 expandtab
 
-" let g:instant_markdown_autostart = 1 "if doing a lot of MD - https://github.com/suan/vim-instant-markdown
-"let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-"let g:ycm_server_python_interpreter = '/usr/bin/python2'
-"if has ("autocmd")
-"   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-"endif
+
+"" javascript
+let g:javascript_enable_domhtmlcss = 1
+
+"" vim-javascript
+augroup vimrc-javascript
+  autocmd!
+  autocmd FileType javascript setl tabstop=4|setl shiftwidth=4|setl expandtab softtabstop=4
+augroup END
+
+
+"" php
+
+
+"" python
+"" vim-python
+augroup vimrc-python
+  autocmd!
+  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
+      \ formatoptions+=croq softtabstop=4
+      \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+augroup END
+
+" jedi-vim
+let g:jedi#popup_on_dot = 0
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<leader>d"
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#rename_command = "<leader>r"
+let g:jedi#show_call_signatures = "0"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#smart_auto_mappings = 0
+
+"" ale
+:call extend(g:ale_linters, {
+    \'python': ['flake8'], })
+
+"" vim-airline
+let g:airline#extensions#virtualenv#enabled = 1
+
+"" Syntax highlight
+"" Default highlight is better than polyglot
+let g:polyglot_disabled = ['python']
+let python_highlight_all = 1
+
+
+"" ruby
+let g:rubycomplete_buffer_loading = 1
+let g:rubycomplete_classes_in_global = 1
+let g:rubycomplete_rails = 1
+
+augroup vimrc-ruby
+  autocmd!
+  autocmd BufNewFile,BufRead *.rb,*.rbw,*.gemspec setlocal filetype=ruby
+  autocmd FileType ruby set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2
+augroup END
+
+let g:tagbar_type_ruby = {
+    \ 'kinds' : [
+        \ 'm:modules',
+        \ 'c:classes',
+        \ 'd:describes',
+        \ 'C:contexts',
+        \ 'f:methods',
+        \ 'F:singleton methods'
+    \ ]
+\ }
+
+" RSpec.vim mappings
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+
+" For ruby refactory
+if has('nvim')
+  runtime! macros/matchit.vim
+else
+  packadd! matchit
+endif
+
+" Ruby refactory
+nnoremap <leader>rap  :RAddParameter<cr>
+nnoremap <leader>rcpc :RConvertPostConditional<cr>
+nnoremap <leader>rel  :RExtractLet<cr>
+vnoremap <leader>rec  :RExtractConstant<cr>
+vnoremap <leader>relv :RExtractLocalVariable<cr>
+nnoremap <leader>rit  :RInlineTemp<cr>
+vnoremap <leader>rrlv :RRenameLocalVariable<cr>
+vnoremap <leader>rriv :RRenameInstanceVariable<cr>
+vnoremap <leader>rem  :RExtractMethod<cr>
+
+
+" typescript
+let g:yats_host_keyword = 1
+
+
+
+"*****************************************************************************
+"*****************************************************************************
+
+"" Include user's local vim config
+if filereadable(expand("~/.config/nvim/local_init.vim"))
+  source ~/.config/nvim/local_init.vim
+endif
+
+"*****************************************************************************
+"" Convenience variables
+"*****************************************************************************
+
+" vim-airline
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+if !exists('g:airline_powerline_fonts')
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  let g:airline_left_sep          = '▶'
+  let g:airline_left_alt_sep      = '»'
+  let g:airline_right_sep         = '◀'
+  let g:airline_right_alt_sep     = '«'
+  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  let g:airline#extensions#readonly#symbol   = '⊘'
+  let g:airline#extensions#linecolumn#prefix = '¶'
+  let g:airline#extensions#paste#symbol      = 'ρ'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'Þ'
+  let g:airline_symbols.paste     = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
+else
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+
+  " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+endif
