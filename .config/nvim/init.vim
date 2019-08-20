@@ -28,6 +28,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "" Plug install packages
 "*****************************************************************************
 Plug 'scrooloose/nerdtree'
+Plug 'maksimr/vim-jsbeautify'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -70,6 +71,9 @@ Plug 'tomasr/molokai'
 "*****************************************************************************
 "" Custom bundles
 "*****************************************************************************
+"
+" icons
+Plug 'ryanoasis/vim-devicons'
 
 " go
 "" Go Lang Bundle
@@ -87,6 +91,7 @@ Plug 'mattn/emmet-vim'
 " javascript
 "" Javascript Bundle
 Plug 'jelera/vim-javascript-syntax'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install'}
 
 
 " php
@@ -180,7 +185,7 @@ set number
 set relativenumber
 
 let no_buffers_menu=1
-silent! colorscheme deepsea
+silent! colorscheme elflord
 
 set guifont=DroidSansMono\ Nerd\ Font\ 14
 set laststatus=2
@@ -237,7 +242,7 @@ if exists("*fugitive#statusline")
 endif
 
 " vim-airline
-let g:airline_theme = 'badwolf'
+let g:airline_theme = 'violet'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -359,11 +364,11 @@ set autoread
 "" Mappings
 "*****************************************************************************
 
-"" No Arrows for you normal mode!
-noremap <Up> <NOP>
+"" No Arrows for you normal mode - unless you want to jump some buffers!
+noremap <Up> :buffer0<CR>
 noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+noremap <Left> :bn<CR>
+noremap <Right> :bp<CR>
 
 "" Split
 noremap <Leader>h :<C-u>split<CR>
@@ -450,7 +455,13 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsEditSplit="vertical"
 
 " ale
-let g:ale_linters = {}
+let g:ale_linters = { 
+\ 'javascript': ['jshint']
+\}
+
+let g:ale_fixers = { 
+\ 'javascript': ['prettier_eslint']
+\}
 
 " Tagbar
 nmap <silent> <F4> :TagbarToggle<CR>

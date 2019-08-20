@@ -3,7 +3,7 @@ export LESSOPEN="| ${LESSPIPE} %s"
 export LESS=' -R -X -F '
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/Users/richard.pape/.oh-my-zsh
+  export ZSH=/home/rich/.oh-my-zsh
   PATH=${PATH}:${HOME}/bin
   export PATH="$HOME/.symfony/bin:$PATH"
 # Go stuff
@@ -55,7 +55,6 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source ~/env.sh
 
 if [ -f ~/.aliases ]; then
     . ~/.aliases
@@ -75,7 +74,6 @@ export NVM_DIR="$HOME/.nvm"
 # tabtab source for sls package
 # uninstall by removing these lines or running `tabtab uninstall sls`
 export PATH="/usr/local/sbin:$PATH"
-eval "$(direnv hook zsh buffalo)"
 autoload -U compinit && compinit
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -93,7 +91,6 @@ source $ZSH/oh-my-zsh.sh
 
 
 export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
 
 # Vi emulation in zsh
 
