@@ -28,6 +28,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "" Plug install packages
 "*****************************************************************************
 Plug 'scrooloose/nerdtree'
+Plug 'maksimr/vim-jsbeautify'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -71,6 +72,9 @@ Plug 'tomasr/molokai'
 "" Custom bundles
 "*****************************************************************************
 
+" icons
+Plug 'ryanoasis/vim-devicons'
+
 " go
 "" Go Lang Bundle
 Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
@@ -87,6 +91,7 @@ Plug 'mattn/emmet-vim'
 " javascript
 "" Javascript Bundle
 Plug 'jelera/vim-javascript-syntax'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 
 " php
@@ -112,6 +117,9 @@ Plug 'ecomba/vim-ruby-refactoring'
 Plug 'leafgarland/typescript-vim'
 Plug 'HerringtonDarkholme/yats.vim'
 
+" typescript
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 
 "*****************************************************************************
 "*****************************************************************************
@@ -180,7 +188,7 @@ set number
 set relativenumber
 
 let no_buffers_menu=1
-silent! colorscheme deepsea
+silent! colorscheme elflord
 
 set guifont=DroidSansMono\ Nerd\ Font\ 14
 set laststatus=2
@@ -204,11 +212,8 @@ else
   let g:indentLine_concealcursor = 0
   let g:indentLine_char = '┆'
   let g:indentLine_faster = 1
-
   
 endif
-
-
 
 "" Disable the blinking cursor.
 set gcr=a:blinkon0
@@ -237,13 +242,14 @@ if exists("*fugitive#statusline")
 endif
 
 " vim-airline
-let g:airline_theme = 'badwolf'
+let g:airline_theme = 'violet'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline_skip_empty_sections = 1
-
+" gitgutter
+let g:gitgutter_async=0
 "*****************************************************************************
 "" Abbreviations
 "*****************************************************************************
@@ -359,11 +365,11 @@ set autoread
 "" Mappings
 "*****************************************************************************
 
-"" No Arrows for you normal mode!
-noremap <Up> <NOP>
+"" No Arrows for you normal mode - unless you want to jump some buffers!
+noremap <Up> :buffer0<CR>
 noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+noremap <Right> :bn<CR>
+noremap <Left> :bp<CR>
 
 "" Split
 noremap <Leader>h :<C-u>split<CR>
@@ -450,7 +456,13 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsEditSplit="vertical"
 
 " ale
-let g:ale_linters = {}
+let g:ale_linters = {
+\  'javascript': ['jshint'],
+\}
+let g:ale_fixers = {
+\  'javascript': ['prettier_eslint'],
+\}
+
 
 " Tagbar
 nmap <silent> <F4> :TagbarToggle<CR>
@@ -680,7 +692,6 @@ vnoremap <leader>rem  :RExtractMethod<cr>
 let g:yats_host_keyword = 1
 
 
-
 "*****************************************************************************
 "*****************************************************************************
 
@@ -729,3 +740,6 @@ else
   let g:airline_symbols.linenr = ''
 endif
 
+" Move a line in visual mode
+vnoremap K :m '>-2<CR>gv=gv
+vnoremap J :m '>+1<CR>gv=gv
