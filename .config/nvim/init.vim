@@ -31,6 +31,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'maksimr/vim-jsbeautify'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-commentary'
+Plug 'sebdah/vim-delve' 
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -112,6 +113,8 @@ Plug 'tpope/vim-projectionist'
 Plug 'thoughtbot/vim-rspec'
 Plug 'ecomba/vim-ruby-refactoring'
 
+" React
+Plug 'vim-scripts/WebAPI.vim'
 
 " typescript
 Plug 'leafgarland/typescript-vim'
