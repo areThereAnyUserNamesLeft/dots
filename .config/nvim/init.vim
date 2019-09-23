@@ -458,6 +458,9 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsEditSplit="vertical"
 
+let g:user_emmet_settings = webapi#json#decode(
+\  join(readfile(expand('~/.snippets.json')), "\n"))
+
 " ale
 let g:ale_linters = {
 \  'javascript': ['jshint'],
@@ -746,3 +749,8 @@ endif
 " Move a line in visual mode
 vnoremap K :m '>-2<CR>gv=gv
 vnoremap J :m '>+1<CR>gv=gv
+
+
+" Terminal Tweaks
+:tnoremap <Esc> <C-\><C-n>
+au TermOpen * setlocal nonumber norelativenumber
