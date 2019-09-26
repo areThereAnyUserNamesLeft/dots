@@ -1,5 +1,5 @@
   # AUTOCOLOR {{{
-#    alias ls='ls --color=auto'
+  # alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
     alias grep='grep --color=auto'
@@ -61,5 +61,11 @@
     alias va='nvim ~/.aliases'
     alias sz='source ~/.zshrc'
     alias love='/Applications/love.app/Contents/MacOS/love'
-    alias godocker='docker run -rm -it golang:1.13'
+
+    alias rungodocker='docker run -it -v "$(pwd):/root/code/$(basename $(pwd))" --name "$(basename $(pwd))" -t vim-go:latest zsh'
+    alias startgodocker='docker start $(basename $(pwd))'
+    alias godocker='docker exec -it $(basename $(pwd)) zsh'
+    alias makegodocker='docker build -t vim-go ~/dockerImages/golang/'
+
+
 
