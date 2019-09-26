@@ -377,6 +377,8 @@ noremap <Left> :bp<CR>
 "" Split
 noremap <Leader>h :<C-u>split<CR>
 noremap <Leader>v :<C-u>vsplit<CR>
+set splitbelow
+set splitright
 
 "" Edit and Source shortcuts
 nnoremap <leader>ev :split $MYVIMRC<cr> ",ev opens .vimrc
