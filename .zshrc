@@ -3,17 +3,14 @@ export LESSOPEN="| ${LESSPIPE} %s"
 export LESS=' -R -X -F '
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/rich/.oh-my-zsh
+
+  export ZSH=/root/.oh-my-zsh
   PATH=${PATH}:${HOME}/bin
   export PATH="$HOME/.symfony/bin:$PATH"
 # Go stuff
   export GOPATH=$HOME/go
   export PATH=$PATH:$GOPATH/bin
   PATH=${PATH}:${GOROOT}/bin:${GOPATH}/bin
-  PATH=${PATH}:${HOME}/.gem/ruby/2.5.0/bin
-  PATH=${PATH}:/opt/anaconda/bin
-  NPM_PACKAGES="${HOME}/.npm-packages"
-  PATH="$NPM_PACKAGES/bin:$PATH"
   GOBIN="${GOPATH}/bin"
   PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 

@@ -60,6 +60,7 @@
     alias vt='nvim ~/.tmux.conf'
     alias va='nvim ~/.aliases'
     alias sz='source ~/.zshrc'
+    alias love='/Applications/love.app/Contents/MacOS/love'
 
     alias rungodocker='docker run -it -v "$(pwd):/root/code/$(basename $(pwd))" --name "$(basename $(pwd))" -t vim-go:latest zsh'
     alias startgodocker='docker start $(basename $(pwd))'
