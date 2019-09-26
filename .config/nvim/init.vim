@@ -72,6 +72,9 @@ Plug 'tomasr/molokai'
 "*****************************************************************************
 "" Custom bundles
 "*****************************************************************************
+"
+" icons
+Plug 'ryanoasis/vim-devicons'
 
 " icons
 Plug 'ryanoasis/vim-devicons'
