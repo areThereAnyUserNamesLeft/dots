@@ -28,6 +28,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "" Plug install packages
 "*****************************************************************************
 Plug 'scrooloose/nerdtree'
+Plug 'sebdah/vim-delve'
 Plug 'maksimr/vim-jsbeautify'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-commentary'

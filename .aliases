@@ -60,3 +60,8 @@
     alias vt='nvim ~/.tmux.conf'
     alias va='nvim ~/.aliases'
     alias sz='source ~/.zshrc'
+
+    alias rungodocker='docker run -it -v "$(pwd):/root/code/$(basename $(pwd))" --name "$(basename $(pwd))" -t vim-go:latest zsh'
+    alias startgodocker='docker start $(basename $(pwd))'
+    alias godocker='docker exec -it $(basename $(pwd)) zsh'
+    alias makegodocker='docker build -t vim-go ~/dockerImages/golang/'
